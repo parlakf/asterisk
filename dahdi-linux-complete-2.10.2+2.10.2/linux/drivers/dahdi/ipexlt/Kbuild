@@ -1,0 +1,7 @@
+DAHDI_INCLUDE := $(src)/../../../include
+CFLAGS_ipex_lt.o += -I$(DAHDI_INCLUDE)
+KBUILD_EXTRA_SYMBOLS := $(src)/../Modules.symvers
+
+obj-m += ipex_lt.o
+
+

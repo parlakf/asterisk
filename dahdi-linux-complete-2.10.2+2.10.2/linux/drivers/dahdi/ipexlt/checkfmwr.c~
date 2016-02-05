@@ -1,0 +1,37 @@
+/*
+ *  checkfmwr.c: Firmware upgrade utility for the Open USB FXS board
+ *  Copyright (C) 2010  Angelos Varvitsiotis & Rockbochs, Inc.
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  Acknowledgement:
+ *  The author wishes to thank Rockbochs, Inc. for their support and
+ *  for funding the development of this program.
+ *
+ */
+
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <string.h>
+#include <ctype.h>
+#include <sys/errno.h>
+#include "ipex_lt.h"
+#include <usb.h>	/* this is libusb's include file */
+
+/* how many channels to fail opening before declaring end-of-work */
+#define  MAXAPART	50
+

@@ -1,0 +1,89 @@
+/*
+ * Teknikom IPEX FXS/FXO Interface Driver for Zapata Telephony interface
+ *
+ * Written by FiratParlak<firat@teknikom.com>
+ * $Id: ipex_lt.c 2015-10-27 istanbul $
+ 
+ * Copyright (C) 2015-2020 Teknikom Elektronik Ltd,
+ *
+ * All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ */
+
+/* Rev histroy
+ *
+ * Rev 0.10 initial version
+ *
+ */
+ 
+ #ifndef IPEX_LT
+ 
+ 
+/* various states a board may be in	*/
+#define IPEX_LT_STATE_IDLE		0	/* not initialized		*/
+#define IPEX_LT_STATE_INIT		1	/* initializing			*/
+#define IPEX_LT_STATE_WAIT		2	/* waiting for device to respond*/
+#define IPEX_LT_STATE_OK		3	/* initialized			*/
+#define IPEX_LT_STATE_ERROR		4	/* in error			*/
+#define IPEX_LT_STATE_UNLOAD 	5	/* driver unloading		*/ 
+ 
+ 
+/* ipex_lt magic ioctl number */
+#define IPEX_LT_IOC_MAGIC	'X'
+
+/* reset and reinitialize board */
+#define IPEX_LT_IOCRESET	_IO(IPEX_LT_IOC_MAGIC, 0)
+/* cause a register dump (requires compilation with DEBUG set to VERBOSE) */
+#define IPEX_LT_IOCREGDMP	_IO(IPEX_LT_IOC_MAGIC, 1)
+/* set ringing on/off: zero sets ring off, non-zero sets ring on */
+#define IPEX_LT_IOCSRING	_IO(IPEX_LT_IOC_MAGIC, 2)
+/* set linefeed mode: zero is 'open' mode; non-zero is 'forward active' mode */
+#define IPEX_LT_IOCSLMODE	_IO(IPEX_LT_IOC_MAGIC, 3)
+/* get hook state: returns zero if on-hook, one if off-hook */
+#define IPEX_LT_IOCGHOOK	_IOR(IPEX_LT_IOC_MAGIC, 4, int)
+/* generic event (hook state or DTMF): 0 is no event, others ??? */
+#define IPEX_LT_IOCGDTMF	_IOR(IPEX_LT_IOC_MAGIC, 5, int)
+/* get and reset statistics on errors etc. */
+#define IPEX_LT_IOCGERRSTATS	_IOR(IPEX_LT_IOC_MAGIC, 6, struct ipex_lt_errstats)
+/* burn a serial number */
+#define IPEX_LT_IOCBURNSN	_IO(IPEX_LT_IOC_MAGIC, 7)
+/* reboot in bootloader mode */
+#define IPEX_LT_IOCBOOTLOAD _IO(IPEX_LT_IOC_MAGIC, 8)
+/* get the firmware version */
+#define IPEX_LT_IOCGVER	_IOR(IPEX_LT_IOC_MAGIC, 9, int)
+/* get the serial number */
+#define IPEX_LT_IOCGSN	_IOR(IPEX_LT_IOC_MAGIC, 10, int)
+#define IPEX_LT_MAX_IOCTL	10 
+
+
+enum EIPEX_LT_cmd{
+	ECmd_Read_Version 		=0x00;
+	ECmd_Read_LT_Version 	= 0x01;
+	
+	ECmd_Last;
+};
+
+union ipex_lt_packet{
+	struct{
+		__u8 Led1;	//Debug
+		__u8 Led2;	//Debug
+	}Leds;
+};
+
+ 
+ #endif	/*IPEX_LT*/
+ 

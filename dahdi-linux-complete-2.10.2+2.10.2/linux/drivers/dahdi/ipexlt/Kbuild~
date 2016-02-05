@@ -1,0 +1,18 @@
+DAHDI_INCLUDE := $(src)/../../../include
+CFLAGS_ipex_lt.o += -I$(DAHDI_INCLUDE)
+HOSTCFLAGS_split_dvsn.o := -I$(DAHDI_INCLUDE)
+HOSTLOADLIBES_checkfmwr := -lusb
+KBUILD_EXTRA_SYMBOLS := $(src)/../Modules.symvers
+
+obj-m += ipex_lt.o
+
+$(obj)/ipex_lt.o: $(src)/ipex_lt_dvsn.h
+
+$(src)/oufxs_dvsn.h: $(obj)/split_dvsn
+	$(obj)/split_dvsn > $(src)/oufxs_dvsn.h
+
+hostprogs-y += checkfmwr
+hostprogs-y += split_dvsn
+hostprogs-y += oufxserrstats
+always += checkfmwr
+always += oufxserrstats
